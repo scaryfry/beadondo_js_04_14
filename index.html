@@ -7,27 +7,32 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Timetable</h1>
-    <table id="timetable">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Day</th>
-                <th>Hour</th>
-                <th>Subject</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
 
-    <h2>Add New Lesson</h2>
-    <form id="addLessonForm">
-        <input type="text" id="day" placeholder="Day" required>
-        <input type="text" id="hour" placeholder="Hour" required>
-        <input type="text" id="subject" placeholder="Subject" required>
-        <button type="submit">Add</button>
-    </form>
+    <header>
+        <h1>Timetable</h1>
+        <table id="timetable">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Day</th>
+                    <th>Hour</th>
+                    <th>Subject</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </header>
+
+    <main>
+        <form id="addLessonForm">
+            <input type="text" id="day" placeholder="Day" required>
+            <input type="text" id="hour" placeholder="Hour" required>
+            <input type="text" id="subject" placeholder="Subject" required>
+            <button type="submit">Add Lesson</button>
+        </form>
+    </main>
 
     <script src="script.js"></script>
 </body>

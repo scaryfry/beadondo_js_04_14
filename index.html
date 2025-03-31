@@ -1,59 +1,34 @@
 <!DOCTYPE html>
-<html lang="hu">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <script src="app.js" defer></script>
     <title>Timetable</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <table>
-        <tr>
-            <th>Hétfő</th>
-            <th>Kedd</th>
-            <th>Szerda</th>
-            <th>Csütörtök</th>
-            <th>Péntek</th>
-        </tr>
+    <h1>Timetable</h1>
+    <table id="timetable">
+        <thead>
             <tr>
-                <td id="hetfo"></td>
-                <td id="kedd"></td>
-                <td id="szerda"></td>
-                <td id="csutortok"></td>
-                <td id="pentek"></td>
+                <th>ID</th>
+                <th>Day</th>
+                <th>Hour</th>
+                <th>Subject</th>
+                <th>Actions</th>
             </tr>
-        </table>
-        <script>
-            document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                const response = await fetch('/timetable');
-                const data = await response.json();
-    
-                const timetable = {
-                hetfo: '',
-                kedd: '',
-                szerda: '',
-                csutortok: '',
-                pentek: ''
-                };
-    
-                data.forEach(entry => {
-                if (entry.day && timetable[entry.day.toLowerCase()]) {
-                    timetable[entry.day.toLowerCase()] += `${entry.hour}: ${entry.subject}\n`;
-                }
-                });
-    
-                document.getElementById('hetfo').textContent = timetable.hetfo.trim();
-                document.getElementById('kedd').textContent = timetable.kedd.trim();
-                document.getElementById('szerda').textContent = timetable.szerda.trim();
-                document.getElementById('csutortok').textContent = timetable.csutortok.trim();
-                document.getElementById('pentek').textContent = timetable.pentek.trim();
-            } catch (error) {
-                console.error('Error fetching timetable:', error);
-            }
-            });
-        </script>
+        </thead>
+        <tbody></tbody>
     </table>
+
+    <h2>Add New Lesson</h2>
+    <form id="addLessonForm">
+        <input type="text" id="day" placeholder="Day" required>
+        <input type="text" id="hour" placeholder="Hour" required>
+        <input type="text" id="subject" placeholder="Subject" required>
+        <button type="submit">Add</button>
+    </form>
+
+    <script src="script.js"></script>
 </body>
 </html>

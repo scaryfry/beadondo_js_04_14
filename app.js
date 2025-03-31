@@ -1,9 +1,11 @@
 import express from 'express';
+import cors from 'cors';  
 import { ItitalizeDatabase, dbAll, dbGet, dbRun } from './util/database.js';
 
-
 const app = express();
-app.use(express.json())
+
+app.use(cors());  
+app.use(express.json());
 
 
 app.get('/timetable', async (req, res) => {

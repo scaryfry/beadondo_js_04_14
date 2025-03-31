@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+    <title>Timetable</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>Hétfő</th>
+            <th>Kedd</th>
+            <th>Szerda</th>
+            <th>Csütörtök</th>
+            <th>Péntek</th>
+        </tr>
+            <tr>
+                <td id="hetfo"></td>
+                <td id="kedd"></td>
+                <td id="szerda"></td>
+                <td id="csutortok"></td>
+                <td id="pentek"></td>
+            </tr>
+        </table>
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('/timetable');
+                const data = await response.json();
+    
+                const timetable = {
+                hetfo: '',
+                kedd: '',
+                szerda: '',
+                csutortok: '',
+                pentek: ''
+                };
+    
+                data.forEach(entry => {
+                if (entry.day && timetable[entry.day.toLowerCase()]) {
+                    timetable[entry.day.toLowerCase()] += `${entry.hour}: ${entry.subject}\n`;
+                }
+                });
+    
+                document.getElementById('hetfo').textContent = timetable.hetfo.trim();
+                document.getElementById('kedd').textContent = timetable.kedd.trim();
+                document.getElementById('szerda').textContent = timetable.szerda.trim();
+                document.getElementById('csutortok').textContent = timetable.csutortok.trim();
+                document.getElementById('pentek').textContent = timetable.pentek.trim();
+            } catch (error) {
+                console.error('Error fetching timetable:', error);
+            }
+            });
+        </script>
+    </table>
+</body>
+</html>

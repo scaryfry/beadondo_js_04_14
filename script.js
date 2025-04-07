@@ -14,24 +14,24 @@ async function fetchTimetable() {
 
 function renderTimetable(data) {
     const timetable = document.querySelector("#timetable");
-
     data.forEach(row => {
-        const { day, hour, subject } = row;
+        const {id, day, hour, subject } = row;
         const cell = document.getElementById(`${day.toLowerCase()}-${hour}`);
         if (cell) {
             cell.textContent = subject;
+            cell.addEventListener("click", () => {
+                const inputs = document.querySelectorAll(`input[data-id='${id}']`);
+                inputs.forEach(input => {
+                    input.value = cell.textContent;
+                });
+                document.querySelector("#update-btn").dataset.id = id;
+            });
         }
     });
-
-    const saveButtons = document.querySelectorAll(".save-btn");
-    saveButtons.forEach(btn => {
-        btn.addEventListener("click", () => updateLesson(btn.dataset.id));
-    });
-
     const deleteButtons = document.querySelectorAll(".delete-btn");
     deleteButtons.forEach(btn => {
         btn.addEventListener("click", () => deleteLesson(btn.dataset.id));
-    });
+    }); 
 }
 
 async function updateLesson(id) {

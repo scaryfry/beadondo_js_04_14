@@ -13,29 +13,23 @@ async function fetchTimetable() {
 }
 
 function renderTimetable(data) {
-    const tbody = document.querySelector("#timetable tbody");
-    tbody.innerHTML = ""; 
+    const timetable = document.querySelector("#timetable");
 
     data.forEach(row => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td>${row.id}</td>
-            <td><input type="text" value="${row.day}" class="editable" data-id="${row.id}" data-field="day"></td>
-            <td><input type="text" value="${row.hour}" class="editable" data-id="${row.id}" data-field="hour"></td>
-            <td><input type="text" value="${row.subject}" class="editable" data-id="${row.id}" data-field="subject"></td>
-            <td>
-                <button class="save-btn" data-id="${row.id}">Save</button>
-                <button class="delete-btn" data-id="${row.id}">Delete</button>
-            </td>
-        `;
-        tbody.appendChild(tr);
+        const { day, hour, subject } = row;
+        const cell = document.getElementById(`${day.toLowerCase()}-${hour}`);
+        if (cell) {
+            cell.textContent = subject;
+        }
     });
 
-    document.querySelectorAll(".save-btn").forEach(btn => {
+    const saveButtons = document.querySelectorAll(".save-btn");
+    saveButtons.forEach(btn => {
         btn.addEventListener("click", () => updateLesson(btn.dataset.id));
     });
 
-    document.querySelectorAll(".delete-btn").forEach(btn => {
+    const deleteButtons = document.querySelectorAll(".delete-btn");
+    deleteButtons.forEach(btn => {
         btn.addEventListener("click", () => deleteLesson(btn.dataset.id));
     });
 }

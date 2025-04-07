@@ -39,15 +39,15 @@ export function dbRun(sql, params = []){
 }
 export async function ItitalizeDatabase(){
     await dbRun("DROP TABLE IF EXISTS timetable");
-    await dbRun("CREATE TABLE IF NOT EXISTS timetable (id INTEGER PRIMARY KEY AUTOINCREMENT, day STRING, hour STRING, subject STRING)");
+    await dbRun("CREATE TABLE IF NOT EXISTS timetable (id INTEGER PRIMARY KEY AUTOINCREMENT, day STRING, hour INTEGER, subject STRING)");
 
     const lessons = [
-        { day: 'Monday', hour: '8:00', subject: 'Math' },
-        { day: 'Monday', hour: '9:00', subject: 'English' },
-        { day: 'Tuesday', hour: '10:00', subject: 'Science' },
-        { day: 'Wednesday', hour: '11:00', subject: 'History' },
-        { day: 'Thursday', hour: '13:00', subject: 'Geography' },
-        { day: 'Friday', hour: '14:00', subject: 'Art' }
+        { day: 'Monday', hour: 1, subject: 'Math' },
+        { day: 'Monday', hour: 2, subject: 'English' },
+        { day: 'Tuesday', hour: 1, subject: 'Science' },
+        { day: 'Wednesday', hour: 2, subject: 'History' },
+        { day: 'Thursday', hour: 1, subject: 'Geography' },
+        { day: 'Friday', hour: 3, subject: 'Art' }
     ];
 
     for (const lesson of lessons) {

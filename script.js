@@ -11,37 +11,48 @@ async function fetchTimetable() {
         alert("Could not load timetable. Check console for details.");
     }
 }
-
 function renderTimetable(data) {
-    const timetable = document.querySelector("#timetable");
     data.forEach(row => {
-        const {id, day, hour, subject } = row;
+        const { id, day, hour, subject } = row; // Include `id` from the data
         const cell = document.getElementById(`${day.toLowerCase()}-${hour}`);
         if (cell) {
             cell.textContent = subject;
+            cell.dataset.lessonId = id; // Store the `id` in a data attribute
             cell.addEventListener("click", () => {
-                const inputs = document.querySelectorAll(`input[data-id='${id}']`);
-                inputs.forEach(input => {
-                    input.value = cell.textContent;
-                });
-                document.querySelector("#update-btn").dataset.id = id;
+                const dayInput = document.querySelector("#day");
+                const hourInput = document.querySelector("#hour");
+                const subjectInput = document.querySelector("#subject");
+                const lessonIdInput = document.querySelector("#lessonId");
+
+                if (dayInput && hourInput && subjectInput && lessonIdInput) {
+                    dayInput.value = day;
+                    hourInput.value = hour;
+                    subjectInput.value = subject;
+                    lessonIdInput.value = id; // Set the `id` in the hidden input field
+                } else {
+                    console.error("One or more input fields are missing in the DOM.");
+                }
             });
+        } else {
+            console.warn(`Cell with ID '${day.toLowerCase()}-${hour}' not found.`);
         }
     });
-    const deleteButtons = document.querySelectorAll(".delete-btn");
-    deleteButtons.forEach(btn => {
-        btn.addEventListener("click", () => deleteLesson(btn.dataset.id));
-    }); 
 }
 
-async function updateLesson(id) {
-    const inputs = document.querySelectorAll(`input[data-id='${id}']`);
-    const day = inputs[0].value;
-    const hour = inputs[1].value;
-    const subject = inputs[2].value;
+async function updateLesson() {
+    const lessonIdInput = document.querySelector("#lessonId");
+    const lessonId = lessonIdInput ? lessonIdInput.value : null;
+
+    if (!lessonId) {
+        alert("Lesson ID is missing. Please select a lesson to update.");
+        return;
+    }
+    const day = document.querySelector("#day").value;
+    const hour = document.querySelector("#hour").value;
+    const subject = document.querySelector("#subject").value;
 
     try {
-        const response = await fetch(`${API_URL}/${id}`, {
+        const response = await fetch(`${API_URL}/${lessonId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ day, hour, subject })
@@ -50,8 +61,10 @@ async function updateLesson(id) {
         if (!response.ok) throw new Error("Failed to update lesson.");
 
         alert("Lesson updated successfully!");
+        refreshTimetable();
         fetchTimetable();
-    } catch (error) {
+    }
+         catch (error) {
         console.error("Error updating lesson:", error);
         alert("Could not update lesson.");
     }
@@ -65,6 +78,7 @@ async function deleteLesson(id) {
         if (!response.ok) throw new Error("Failed to delete lesson.");
 
         alert("Lesson deleted successfully!");
+        refreshTimetable();
         fetchTimetable();
     } catch (error) {
         console.error("Error deleting lesson:", error);
@@ -89,11 +103,23 @@ document.querySelector("#addLessonForm").addEventListener("submit", async (e) =>
 
         alert("Lesson added successfully!");
         e.target.reset();
-        fetchTimetable();
+        refreshTimetable();
+        fetchTimetable(); 
     } catch (error) {
         console.error("Error adding lesson:", error);
         alert("Could not add lesson.");
     }
 });
-
+function refreshTimetable() {
+    for (let day of ["monday", "tuesday", "wednesday", "thursday", "friday"]) {
+        for (let hour = 1; hour <= 6; hour++) {
+            const cell = document.getElementById(`${day}-${hour}`);
+            if (cell) {
+                cell.textContent = "";
+                const newCell = cell.cloneNode(true);
+                cell.parentNode.replaceChild(newCell, cell);
+            }
+        }
+    }
+}
 fetchTimetable();

@@ -24,7 +24,7 @@
             <tbody>
                 <tr>
                     <th>8:00 - 9:00</th>
-                    <td id="monday-1"><button id="update-btn" onclick="updateLesson('monday-1')"></button></td>
+                    <td id="monday-1"></td>
                     <td id="tuesday-1"></td>
                     <td id="wednesday-1"></td>
                     <td id="thursday-1"></td>
@@ -78,7 +78,10 @@
             <input type="text" id="day" placeholder="Day" required>
             <input type="text" id="hour" placeholder="Hour" required>
             <input type="text" id="subject" placeholder="Subject" required>
+            <input type="hidden" id="lessonId">
             <button type="submit">Add Lesson</button>
+            <button type="button" onclick="updateLesson()">Update</button>
+            <button type="button" id="delete-btn" onclick="deleteLesson(document.querySelector('#lessonId').value)">Delete</button>
         </form>
     </main>
     <script src="script.js"></script>

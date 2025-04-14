@@ -13,11 +13,11 @@ async function fetchTimetable() {
 }
 function renderTimetable(data) {
     data.forEach(row => {
-        const { id, day, hour, subject } = row; // Include `id` from the data
+        const { id, day, hour, subject } = row; 
         const cell = document.getElementById(`${day.toLowerCase()}-${hour}`);
         if (cell) {
             cell.textContent = subject;
-            cell.dataset.lessonId = id; // Store the `id` in a data attribute
+            cell.dataset.lessonId = id; 
             cell.addEventListener("click", () => {
                 const dayInput = document.querySelector("#day");
                 const hourInput = document.querySelector("#hour");
@@ -28,7 +28,7 @@ function renderTimetable(data) {
                     dayInput.value = day;
                     hourInput.value = hour;
                     subjectInput.value = subject;
-                    lessonIdInput.value = id; // Set the `id` in the hidden input field
+                    lessonIdInput.value = id; 
                 } else {
                     console.error("One or more input fields are missing in the DOM.");
                 }
@@ -50,7 +50,19 @@ async function updateLesson() {
     const day = document.querySelector("#day").value;
     const hour = document.querySelector("#hour").value;
     const subject = document.querySelector("#subject").value;
-
+    if (!day || !hour || !subject) {
+        alert("You missed something. Please check the datas again");
+        return;
+    }
+    if(!["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].includes(day))
+    {
+        alert("Invalid day entered");
+        return;
+    }
+    if(0 > hour < 7){
+        alert("Invalid hour entered");
+        return;
+    }
     try {
         const response = await fetch(`${API_URL}/${lessonId}`, {
             method: "PUT",
@@ -91,7 +103,19 @@ document.querySelector("#addLessonForm").addEventListener("submit", async (e) =>
     const day = document.querySelector("#day").value;
     const hour = document.querySelector("#hour").value;
     const subject = document.querySelector("#subject").value;
-
+    if (!day || !hour || !subject) {
+        alert("You missed something. Please check the datas again");
+        return;
+    }
+    if(!["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].includes(day))
+    {
+        alert("Invalid day entered");
+        return;
+    }
+    if(0 > hour < 7){
+        alert("Invalid hour entered");
+        return;
+    }
     try {
         const response = await fetch(API_URL, {
             method: "POST",

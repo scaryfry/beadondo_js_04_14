@@ -39,7 +39,7 @@ function renderTimetable(data) {
     });
 }
 
-async function updateLesson() {
+async function updateLesson(id) {
     const lessonIdInput = document.querySelector("#lessonId");
     const lessonId = lessonIdInput ? lessonIdInput.value : null;
 
@@ -59,12 +59,8 @@ async function updateLesson() {
         alert("Invalid day entered");
         return;
     }
-    if(0 > hour < 7){
-        alert("Invalid hour entered");
-        return;
-    }
     try {
-        const response = await fetch(`${API_URL}/${lessonId}`, {
+        const response = await fetch(`${API_URL}/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ day, hour, subject })
@@ -110,10 +106,6 @@ document.querySelector("#addLessonForm").addEventListener("submit", async (e) =>
     if(!["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].includes(day))
     {
         alert("Invalid day entered");
-        return;
-    }
-    if(0 > hour < 7){
-        alert("Invalid hour entered");
         return;
     }
     try {

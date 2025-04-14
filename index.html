@@ -80,7 +80,7 @@
             <input type="text" id="subject" placeholder="Subject" required>
             <input type="hidden" id="lessonId">
             <button type="submit">Add Lesson</button>
-            <button type="button" onclick="updateLesson()">Update</button>
+            <button type="button" onclick="updateLesson(document.querySelector('#lessonId').value)">Update</button>
             <button type="button" id="delete-btn" onclick="deleteLesson(document.querySelector('#lessonId').value)">Delete</button>
         </form>
     </main>
